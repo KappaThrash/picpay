@@ -4,11 +4,12 @@ import bank.picpay.models.usuario.UsuarioEntity;
 import bank.picpay.models.usuario.cnpjDTO;
 import bank.picpay.models.usuario.cpfDTO;
 import bank.picpay.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/cadastro")
+@RequestMapping("/cadastrar")
 public class UsuarioController {
     private final UsuarioService service;
 
@@ -17,12 +18,12 @@ public class UsuarioController {
     }
 
     @PostMapping("/usuario")
-    public ResponseEntity<?> postUsuario(@RequestBody cpfDTO dto){
+    public ResponseEntity<?> postUsuario(@RequestBody @Valid cpfDTO dto){
         return service.validarUsuario(dto);
     }
 
     @PostMapping("/lojista")
-    public ResponseEntity<?> postUsuario(@RequestBody cnpjDTO dto){
+    public ResponseEntity<?> postUsuario(@RequestBody @Valid cnpjDTO dto){
         return service.validarLojista(dto);
     }
 

@@ -1,5 +1,7 @@
 package bank.picpay.service;
 
+import bank.picpay.models.usuario.TipoUsuario;
+import bank.picpay.models.usuario.UsuarioEntity;
 import bank.picpay.models.usuario.cnpjDTO;
 import bank.picpay.models.usuario.cpfDTO;
 import bank.picpay.repository.UsuarioRepository;
@@ -16,10 +18,28 @@ public class UsuarioService {
     }
 
     public ResponseEntity<?> validarUsuario(cpfDTO dto){
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        var Entity = new UsuarioEntity();
+        Entity.setNome(dto.getNome());
+
+        Entity.setTipo(TipoUsuario.USUARIO);
+
+        Entity.setDocumento(dto.getCpf());
+        Entity.setEmail(dto.getEmail());
+        Entity.setSenha(dto.getSenha());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(Entity));
     }
 
     public ResponseEntity<?> validarLojista(cnpjDTO dto){
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        var Entity = new UsuarioEntity();
+        Entity.setNome(dto.getNome());
+
+        Entity.setTipo(TipoUsuario.LOJISTA);
+
+        Entity.setDocumento(dto.getCnpj());
+        Entity.setEmail(dto.getEmail());
+        Entity.setSenha(dto.getSenha());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(Entity));
     }
 }

@@ -1,7 +1,8 @@
-CREATE TABLE usuariosCPF(
+CREATE TABLE usuarios(
     usuario_id UUID PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    cpf VARCHAR(30) NOT NULL UNIQUE,
+    tipo VARCHAR(20) NOT NULL
+    documento VARCHAR(30) NOT NULL UNIQUE,
     email VARCHAR(40) NOT NULL UNIQUE,
     senha VARCHAR(40) NOT NULL
 );

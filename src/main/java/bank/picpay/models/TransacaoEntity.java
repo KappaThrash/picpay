@@ -2,10 +2,15 @@ package bank.picpay.models;
 
 import bank.picpay.models.usuario.UsuarioEntity;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "transacoes")
 public class TransacaoEntity {

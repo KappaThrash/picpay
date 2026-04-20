@@ -14,15 +14,17 @@ public class UsuarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    UUID usuarioCPF_id;
+    UUID usuario_id;
 
     String nome;
 
     @Enumerated(EnumType.STRING)
     TipoUsuario tipo;
 
+    @Column(unique = true)
     String documento;
 
+    @Column(unique = true)
     String email;
 
     String senha;
