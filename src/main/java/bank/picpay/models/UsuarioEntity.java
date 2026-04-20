@@ -1,20 +1,30 @@
-package bank.picpay.repository;
+package bank.picpay.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "usuarios")
+@Getter
+@Setter
 public class UsuarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    UUID id;
+    UUID usuarioCPF_id;
 
     String nome;
-    String cpf;
+
+    @Enumerated(EnumType.STRING)
+    TipoUsuario tipo;
+
+    String documento;
+
     String email;
+
     String senha;
 
 }
