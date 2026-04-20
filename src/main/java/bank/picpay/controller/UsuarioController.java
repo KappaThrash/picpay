@@ -1,11 +1,11 @@
 package bank.picpay.controller;
 
-import bank.picpay.models.UsuarioEntity;
+import bank.picpay.models.usuario.UsuarioEntity;
+import bank.picpay.models.usuario.cnpjDTO;
+import bank.picpay.models.usuario.cpfDTO;
 import bank.picpay.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cadastro")
@@ -16,7 +16,14 @@ public class UsuarioController {
         this.service = service;
     }
 
-    public ResponseEntity<?> postUsuario(@RequestBody UsuarioEntity){
-        return service.
+    @PostMapping("/usuario")
+    public ResponseEntity<?> postUsuario(@RequestBody cpfDTO dto){
+        return service.validarUsuario(dto);
     }
+
+    @PostMapping("/lojista")
+    public ResponseEntity<?> postUsuario(@RequestBody cnpjDTO dto){
+        return service.validarLojista(dto);
+    }
+
 }

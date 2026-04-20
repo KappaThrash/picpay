@@ -1,4 +1,4 @@
-package bank.picpay.models;
+package bank.picpay.models.usuario;
 
 public enum TipoUsuario {
     USUARIO,

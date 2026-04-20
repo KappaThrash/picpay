@@ -1,6 +1,6 @@
 package bank.picpay.repository;
 
-import bank.picpay.models.UsuarioEntity;
+import bank.picpay.models.usuario.UsuarioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

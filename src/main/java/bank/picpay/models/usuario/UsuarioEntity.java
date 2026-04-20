@@ -1,4 +1,4 @@
-package bank.picpay.models;
+package bank.picpay.models.usuario;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,5 +1,6 @@
 package bank.picpay.models;
 
+import bank.picpay.models.usuario.UsuarioEntity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
