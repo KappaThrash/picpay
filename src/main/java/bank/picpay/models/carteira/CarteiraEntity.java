@@ -1,0 +1,27 @@
+package bank.picpay.models.carteira;
+
+import bank.picpay.models.usuario.UsuarioEntity;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+@Setter
+@Getter
+@Entity
+@Table(name = "carteira")
+public class CarteiraEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private UsuarioEntity user_id;
+
+    @Column(nullable = false)
+    private BigDecimal balance;
+}

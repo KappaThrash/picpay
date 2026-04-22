@@ -1,12 +1,14 @@
-package bank.picpay.models;
+package bank.picpay.models.transacao;
 
+import bank.picpay.models.carteira.CarteiraEntity;
 import bank.picpay.models.usuario.UsuarioEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Getter
@@ -19,13 +21,15 @@ public class TransacaoEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    BigDecimal value;
+    BigDecimal amount;
 
     @ManyToOne
     @JoinColumn(name = "payer_id")
-    private UsuarioEntity payer;
+    private CarteiraEntity payer;
 
     @ManyToOne
     @JoinColumn(name = "payee_id")
-    private UsuarioEntity payee;
+    private CarteiraEntity payee;
+
+    private Instant created_at;
 }

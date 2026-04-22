@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class UsuarioService {
     private final UsuarioRepository repository;
@@ -23,6 +25,7 @@ public class UsuarioService {
 
         Entity.setTipo(TipoUsuario.USUARIO);
 
+
         Entity.setDocumento(dto.getCpf());
         Entity.setEmail(dto.getEmail());
         Entity.setSenha(dto.getSenha());
@@ -35,6 +38,7 @@ public class UsuarioService {
         Entity.setNome(dto.getNome());
 
         Entity.setTipo(TipoUsuario.LOJISTA);
+
 
         Entity.setDocumento(dto.getCnpj());
         Entity.setEmail(dto.getEmail());

@@ -1,8 +1,7 @@
 package bank.picpay.service;
 
-import bank.picpay.models.TransacaoEntity;
+import bank.picpay.models.transacao.TransacaoEntity;
 import bank.picpay.repository.TransacaoRepository;
-import bank.picpay.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

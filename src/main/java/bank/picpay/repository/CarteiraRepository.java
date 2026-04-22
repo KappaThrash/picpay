@@ -1,11 +1,12 @@
 package bank.picpay.repository;
 
-import bank.picpay.models.transacao.TransacaoEntity;
+import bank.picpay.models.carteira.CarteiraEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface TransacaoRepository extends JpaRepository<TransacaoEntity, UUID> {
+public interface CarteiraRepository extends JpaRepository<CarteiraEntity, UUID> {
+    CarteiraEntity findByUser_id(UUID id);
 }

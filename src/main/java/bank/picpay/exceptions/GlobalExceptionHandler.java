@@ -1,5 +1,6 @@
 package bank.picpay.exceptions;
 
+import bank.picpay.exceptions.custom_exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,19 @@ public class GlobalExceptionHandler {
                         HttpStatus.UNPROCESSABLE_CONTENT.value(),
                         "MethodArgumentNotValidException",
                         ex.getLocalizedMessage(),
+                        request.getRequestURI()
+                )
+        );
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex, HttpServletRequest request){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ErrorResponse(
+                        OffsetDateTime.now(),
+                        HttpStatus.NOT_FOUND.value(),
+                        "UserNotFoundException",
+                        ex.getMessage(),
                         request.getRequestURI()
                 )
         );
