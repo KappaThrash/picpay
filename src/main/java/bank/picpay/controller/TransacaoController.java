@@ -1,5 +1,6 @@
 package bank.picpay.controller;
 
+import bank.picpay.models.transacao.TransacaoDTO;
 import bank.picpay.models.transacao.TransacaoEntity;
 import bank.picpay.service.TransacaoService;
 import jakarta.validation.Valid;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/transacao")
+@RequestMapping("/transfer")
 public class TransacaoController {
     private final TransacaoService service;
 
@@ -19,7 +20,7 @@ public class TransacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> transacaoPost(@RequestBody @Valid TransacaoEntity entity){
-        return service.actTransacao(entity);
+    public ResponseEntity<?> transacaoPost(@RequestBody @Valid TransacaoDTO dto){
+        return service.actTransacao(dto);
     }
 }

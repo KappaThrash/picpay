@@ -8,5 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface CarteiraRepository extends JpaRepository<CarteiraEntity, UUID> {
-    CarteiraEntity findByUser_id(UUID id);
+//    CarteiraEntity findByUser_id(UUID id);
 }
