@@ -1,5 +1,6 @@
 package bank.picpay.exceptions;
 
+import bank.picpay.exceptions.custom_exceptions.BusinessException;
 import bank.picpay.exceptions.custom_exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -48,6 +49,19 @@ public class GlobalExceptionHandler {
                         HttpStatus.UNPROCESSABLE_CONTENT.value(),
                         "MethodArgumentNotValidException",
                         ex.getLocalizedMessage(),
+                        request.getRequestURI()
+                )
+        );
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException ex, HttpServletRequest request){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ErrorResponse(
+                        OffsetDateTime.now(),
+                        HttpStatus.BAD_REQUEST.value(),
+                        "BusinessException",
+                        ex.getMessage(),
                         request.getRequestURI()
                 )
         );
