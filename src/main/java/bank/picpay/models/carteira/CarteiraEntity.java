@@ -1,5 +1,6 @@
 package bank.picpay.models.carteira;
 
+import bank.picpay.exceptions.custom_exceptions.BusinessException;
 import bank.picpay.models.usuario.UsuarioEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,4 +25,12 @@ public class CarteiraEntity {
 
     @Column(nullable = false)
     private BigDecimal balance;
+
+    public void debit(BigDecimal value){
+        if(this.getBalance().compareTo(value) < 0){
+            throw new BusinessException("Saldo insuficiente");
+        }
+
+        this.balance = (this.balance.subtract(value));
+    }
 }
