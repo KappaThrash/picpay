@@ -30,4 +30,8 @@ public class UsuarioEntity {
 
     String senha;
 
+
+    public boolean isLOJISTA(){
+        return this.tipo == TipoUsuario.LOJISTA;
+    }
 }

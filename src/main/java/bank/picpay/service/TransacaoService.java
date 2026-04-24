@@ -1,5 +1,6 @@
 package bank.picpay.service;
 
+import bank.picpay.auth.AuthorizeApi;
 import bank.picpay.exceptions.custom_exceptions.BusinessException;
 import bank.picpay.exceptions.custom_exceptions.CarteiraNotFoundException;
 import bank.picpay.models.responses.auth.AuthorizationResponseDTO;
@@ -45,7 +46,7 @@ public class TransacaoService {
 
         BigDecimal TransactionValue = dto.getAmount();
 
-        if(PayerAccount.getTipo() == TipoUsuario.LOJISTA){
+        if(PayerAccount.isLOJISTA()){
             throw new BusinessException("Usuarios do tipo LOJISTA não podem efetuar transferencias");
         }
 
@@ -53,21 +54,9 @@ public class TransacaoService {
             throw new BusinessException("Saldo insuficiente");
         }
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<AuthorizationResponseDTO> response = restTemplate.getForEntity("https://util.devi.tools/api/v2/authorize", AuthorizationResponseDTO.class);
-
-        if(!response.getStatusCode().is2xxSuccessful()) {
-            throw new BusinessException("Sistema de autorização retornando erro");
-        }
-
-        AuthorizationResponseDTO responseBody = response.getBody();
-        if(responseBody != null){
-            boolean isAuthorized = responseBody.getData().isAuthorization();
-            if(!isAuthorized){
-                throw new BusinessException("Sistema de autorização recusou a transferencia");
-            }
-        }else{
-            throw new BusinessException("Sistema de autorização retornando response null");
+        AuthorizeApi AuthorizeApi = new AuthorizeApi();
+        if(!AuthorizeApi.getAuth()){
+           throw new BusinessException("Não autorizado");
         }
 
         PayerCarteira.debit(TransactionValue);
