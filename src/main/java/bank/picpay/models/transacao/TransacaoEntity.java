@@ -3,7 +3,9 @@ package bank.picpay.models.transacao;
 import bank.picpay.models.carteira.CarteiraEntity;
 import bank.picpay.models.usuario.UsuarioEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -14,6 +16,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "transacoes")
 public class TransacaoEntity {
 
@@ -32,4 +36,5 @@ public class TransacaoEntity {
     private CarteiraEntity payee;
 
     private Instant created_at;
+
 }

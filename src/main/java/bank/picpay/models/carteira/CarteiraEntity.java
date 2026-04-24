@@ -30,7 +30,13 @@ public class CarteiraEntity {
         if(this.getBalance().compareTo(value) < 0){
             throw new BusinessException("Saldo insuficiente");
         }
+        this.balance = this.balance.subtract(value);
+    }
 
-        this.balance = (this.balance.subtract(value));
+    public void credit(BigDecimal value){
+        if(value.compareTo(BigDecimal.ZERO) < 0){
+            throw new BusinessException("Creditando valor negativo");
+        }
+        this.balance = this.balance.add(value);
     }
 }
