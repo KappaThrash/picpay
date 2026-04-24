@@ -3,10 +3,8 @@ package bank.picpay.service;
 import bank.picpay.auth.AuthorizeApi;
 import bank.picpay.exceptions.custom_exceptions.BusinessException;
 import bank.picpay.exceptions.custom_exceptions.CarteiraNotFoundException;
-import bank.picpay.models.responses.auth.AuthorizationResponseDTO;
 import bank.picpay.models.transacao.TransacaoDTO;
 import bank.picpay.models.transacao.TransacaoEntity;
-import bank.picpay.models.usuario.TipoUsuario;
 import bank.picpay.repository.CarteiraRepository;
 import bank.picpay.repository.TransacaoRepository;
 import bank.picpay.repository.UsuarioRepository;
@@ -14,7 +12,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -66,6 +63,7 @@ public class TransacaoService {
         SavingTransacaoEntity.setAmount(dto.getAmount());
         SavingTransacaoEntity.setPayer(PayerCarteira);
         SavingTransacaoEntity.setPayee(PayeeCarteira);
+        SavingTransacaoEntity.setCreated_at(Instant.now());
         transacaoRepository.save(SavingTransacaoEntity);
 
         return ResponseEntity.status(HttpStatus.OK).build();
