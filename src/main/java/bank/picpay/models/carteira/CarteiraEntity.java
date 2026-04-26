@@ -39,4 +39,9 @@ public class CarteiraEntity {
         }
         this.balance = this.balance.add(value);
     }
+
+    public void mapDTOToEntity(UsuarioEntity usuarioEntity){
+        this.user_id = usuarioEntity;
+        this.balance = BigDecimal.ZERO;
+    }
 }

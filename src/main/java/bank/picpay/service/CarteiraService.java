@@ -9,8 +9,6 @@ import bank.picpay.repository.UsuarioRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
@@ -28,8 +26,7 @@ public class CarteiraService {
                 .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
 
         var Carteira = new CarteiraEntity();
-        Carteira.setUser_id(UsuarioEntity);
-        Carteira.setBalance(BigDecimal.ZERO);
+        Carteira.mapDTOToEntity(UsuarioEntity);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(carteiraRepository.save(Carteira));
     }

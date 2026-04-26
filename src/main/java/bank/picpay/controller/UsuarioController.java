@@ -1,6 +1,5 @@
 package bank.picpay.controller;
 
-import bank.picpay.models.usuario.UsuarioEntity;
 import bank.picpay.models.usuario.cnpjDTO;
 import bank.picpay.models.usuario.cpfDTO;
 import bank.picpay.service.UsuarioService;
@@ -9,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/cadastrar")
+@RequestMapping
 public class UsuarioController {
     private final UsuarioService service;
 

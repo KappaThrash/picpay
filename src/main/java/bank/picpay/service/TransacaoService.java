@@ -5,6 +5,7 @@ import bank.picpay.exceptions.custom_exceptions.BusinessException;
 import bank.picpay.exceptions.custom_exceptions.CarteiraNotFoundException;
 import bank.picpay.models.transacao.TransacaoDTO;
 import bank.picpay.models.transacao.TransacaoEntity;
+import bank.picpay.notify.NotifyApi;
 import bank.picpay.repository.CarteiraRepository;
 import bank.picpay.repository.TransacaoRepository;
 import bank.picpay.repository.UsuarioRepository;
@@ -58,11 +59,17 @@ public class TransacaoService {
         PayerCarteira.debit(TransactionValue);
         PayeeCarteira.credit(TransactionValue);
 
+        //A api simplesmente retorna um 204 No Content ou um 504 Gateway Timeout simulando uma falha
+        // como não é pedido para enviar algo e nem tem documentação para oque enviar deixarei
+        // apenas a classe com o metodo vazio aqui
+        new NotifyApi().postNotifcation();
+
+
         var SavingTransacaoEntity = new TransacaoEntity();
         SavingTransacaoEntity.mapDTOToEntity(dto, PayerCarteira, PayeeCarteira);
         transacaoRepository.save(SavingTransacaoEntity);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(SavingTransacaoEntity);
     }
 
 }
