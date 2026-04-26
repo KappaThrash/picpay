@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -33,5 +32,21 @@ public class UsuarioEntity {
 
     public boolean isLOJISTA(){
         return this.tipo == TipoUsuario.LOJISTA;
+    }
+
+    public void mapCPFDTOoEntity(cpfDTO dto){
+        this.nome = dto.getNome();
+        this.tipo = TipoUsuario.USUARIO;
+        this.documento = dto.getCpf();
+        this.email = dto.getEmail();
+        this.senha = dto.getSenha();
+    }
+
+    public void mapCPNPJDTOoEntity(cnpjDTO dto){
+        this.nome = dto.getNome();
+        this.tipo = TipoUsuario.LOJISTA;
+        this.documento = dto.getCnpj();
+        this.email = dto.getEmail();
+        this.senha = dto.getSenha();
     }
 }

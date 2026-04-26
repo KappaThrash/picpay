@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 
 @Service
 public class TransacaoService {
@@ -60,10 +59,7 @@ public class TransacaoService {
         PayeeCarteira.credit(TransactionValue);
 
         var SavingTransacaoEntity = new TransacaoEntity();
-        SavingTransacaoEntity.setAmount(dto.getAmount());
-        SavingTransacaoEntity.setPayer(PayerCarteira);
-        SavingTransacaoEntity.setPayee(PayeeCarteira);
-        SavingTransacaoEntity.setCreated_at(Instant.now());
+        SavingTransacaoEntity.mapDTOToEntity(dto, PayerCarteira, PayeeCarteira);
         transacaoRepository.save(SavingTransacaoEntity);
 
         return ResponseEntity.status(HttpStatus.OK).build();

@@ -1,5 +1,6 @@
 package bank.picpay.models.transacao;
 
+import bank.picpay.models.carteira.CarteiraDTO;
 import bank.picpay.models.carteira.CarteiraEntity;
 import bank.picpay.models.usuario.UsuarioEntity;
 import jakarta.persistence.*;
@@ -37,4 +38,11 @@ public class TransacaoEntity {
 
     private Instant created_at;
 
+
+    public void mapDTOToEntity(TransacaoDTO dto, CarteiraEntity payer,CarteiraEntity payee){
+        this.amount = dto.getAmount();
+        this.payer = payer;
+        this.payee = payee;
+        this.created_at = Instant.now();
+    }
 }

@@ -1,7 +1,6 @@
 package bank.picpay.controller;
 
 import bank.picpay.models.transacao.TransacaoDTO;
-import bank.picpay.models.transacao.TransacaoEntity;
 import bank.picpay.service.TransacaoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

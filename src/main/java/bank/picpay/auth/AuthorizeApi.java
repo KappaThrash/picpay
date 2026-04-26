@@ -4,11 +4,13 @@ import bank.picpay.exceptions.custom_exceptions.BusinessException;
 import bank.picpay.models.responses.auth.AuthorizationResponseDTO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+@Component
 public class AuthorizeApi {
 
-    @Bean
+
     public boolean getAuth(){
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<AuthorizationResponseDTO> response = restTemplate.getForEntity("https://util.devi.tools/api/v2/authorize", AuthorizationResponseDTO.class);
