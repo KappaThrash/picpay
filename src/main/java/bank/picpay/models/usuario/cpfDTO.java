@@ -26,6 +26,7 @@ public class cpfDTO {
 
     @Email
     String email;
+
     @NotBlank
     String senha;
 }
