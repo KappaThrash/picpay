@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: picpay_postgres
+    environment:
+      POSTGRES_DB: picpay
+      POSTGRES_USER: picpay_user
+      POSTGRES_PASSWORD: picpay
+      PG_DATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - picpay-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U user -d picpay"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  picpay-network:
+    driver: bridge
