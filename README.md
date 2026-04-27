@@ -75,7 +75,7 @@ Retorno:
 
 ## Transação
 
-### `POST /transfer` - Efetuar transação apartir de duas carteiras existentes
+### `POST /transfer` - Efetuar transação apartir de duas carteiras existentes (Rollback em caso de falhas)
 
 ### Regras de negocio:
 - Carteira payer deve pertencer a Usuario do tipo USUARIO, LOJISTAS não podem fazer transferencias, apenas receber
