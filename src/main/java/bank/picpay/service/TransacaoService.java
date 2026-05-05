@@ -22,11 +22,13 @@ public class TransacaoService {
     private final TransacaoRepository transacaoRepository;
     private final UsuarioRepository usuarioRepository;
     private final CarteiraRepository carteiraRepository;
+    private final AuthorizeApi authorizeApi;
 
-    public TransacaoService(TransacaoRepository transacaoRepository, UsuarioRepository usuarioRepository, CarteiraRepository carteiraRepository) {
+    public TransacaoService(TransacaoRepository transacaoRepository, UsuarioRepository usuarioRepository, CarteiraRepository carteiraRepository, AuthorizeApi authorizeApi) {
         this.transacaoRepository = transacaoRepository;
         this.usuarioRepository = usuarioRepository;
         this.carteiraRepository = carteiraRepository;
+        this.authorizeApi = authorizeApi;
     }
 
     @Transactional
@@ -51,7 +53,7 @@ public class TransacaoService {
             throw new BusinessException("Saldo insuficiente");
         }
 
-        AuthorizeApi AuthorizeApi = new AuthorizeApi();
+
         if(!AuthorizeApi.getAuth()){
            throw new BusinessException("Não autorizado");
         }

@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 public class AuthorizeApi {
 
 
-    public boolean getAuth(){
+    public static boolean getAuth(){
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<AuthorizationResponseDTO> response = restTemplate.getForEntity("https://util.devi.tools/api/v2/authorize", AuthorizationResponseDTO.class);
 
