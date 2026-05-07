@@ -21,7 +21,7 @@ public class AuthorizeApi {
         }
 
         AuthorizationResponseDTO responseBody = response.getBody();
-        if(responseBody != null){
+        if(responseBody.getData() != null){
             return responseBody.getData().isAuthorization();
         }else{
             throw new BusinessException("Sistema de autorização retornando response null");

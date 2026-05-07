@@ -1,5 +1,6 @@
 package bank.picpay.auth;
 
+import bank.picpay.exceptions.custom_exceptions.BusinessException;
 import bank.picpay.models.responses.auth.AuthorizationResponseDTO;
 import bank.picpay.models.responses.auth.DataResponseAuth;
 import org.junit.jupiter.api.Test;
@@ -39,5 +40,23 @@ class AuthorizeApiTest {
                 .thenReturn(new ResponseEntity<>(response, HttpStatus.OK));
 
         assertFalse(authorizeApi.getAuth());
+    }
+
+    @Test
+    void getAuthCase1() {
+        var response = new AuthorizationResponseDTO("success",new DataResponseAuth(true));
+        when(restTemplate.getForEntity("https://util.devi.tools/api/v2/authorize", AuthorizationResponseDTO.class))
+                .thenReturn(new ResponseEntity<>(response, HttpStatus.BAD_REQUEST));
+
+        assertThrows(BusinessException.class, () -> authorizeApi.getAuth());
+    }
+
+    @Test
+    void getAuthCase2() {
+        var response = new AuthorizationResponseDTO(null,null);
+        when(restTemplate.getForEntity("https://util.devi.tools/api/v2/authorize", AuthorizationResponseDTO.class))
+                .thenReturn(new ResponseEntity<>(response, HttpStatus.OK));
+
+        assertThrows(BusinessException.class, () -> authorizeApi.getAuth());
     }
 }

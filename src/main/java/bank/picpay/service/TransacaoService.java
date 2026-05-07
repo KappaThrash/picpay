@@ -8,12 +8,10 @@ import bank.picpay.models.transacao.TransacaoEntity;
 import bank.picpay.notify.NotifyApi;
 import bank.picpay.repository.CarteiraRepository;
 import bank.picpay.repository.TransacaoRepository;
-import bank.picpay.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 
@@ -21,13 +19,11 @@ import java.math.BigDecimal;
 public class TransacaoService {
 
     private final TransacaoRepository transacaoRepository;
-    private final UsuarioRepository usuarioRepository;
     private final CarteiraRepository carteiraRepository;
     private final AuthorizeApi authorizeApi;
 
-    public TransacaoService(TransacaoRepository transacaoRepository, UsuarioRepository usuarioRepository, CarteiraRepository carteiraRepository, AuthorizeApi authorizeApi) {
+    public TransacaoService(TransacaoRepository transacaoRepository, CarteiraRepository carteiraRepository, AuthorizeApi authorizeApi) {
         this.transacaoRepository = transacaoRepository;
-        this.usuarioRepository = usuarioRepository;
         this.carteiraRepository = carteiraRepository;
         this.authorizeApi = authorizeApi;
     }
@@ -42,7 +38,7 @@ public class TransacaoService {
                 .orElseThrow(() -> new CarteiraNotFoundException("Carteira do Payee não encontrada"));
 
         var PayerAccount = PayerCarteira.getUser_id();
-        var PayeeAccount = PayeeCarteira.getUser_id();
+        //var PayeeAccount = PayeeCarteira.getUser_id();
 
         BigDecimal TransactionValue = dto.getAmount();
 
@@ -53,7 +49,6 @@ public class TransacaoService {
         if(PayerCarteira.getBalance().compareTo(TransactionValue) < 0){
             throw new BusinessException("Saldo insuficiente");
         }
-
 
         if(!authorizeApi.getAuth()){
            throw new BusinessException("Não autorizado");
