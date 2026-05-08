@@ -4,6 +4,7 @@ import bank.picpay.auth.AuthorizeApi;
 import bank.picpay.exceptions.custom_exceptions.BusinessException;
 import bank.picpay.models.carteira.CarteiraEntity;
 import bank.picpay.models.transacao.TransacaoDTO;
+import bank.picpay.models.transacao.TransacaoEntity;
 import bank.picpay.models.usuario.TipoUsuario;
 import bank.picpay.models.usuario.UsuarioEntity;
 import bank.picpay.repository.CarteiraRepository;
@@ -14,8 +15,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,6 +45,7 @@ class TransacaoServiceTest {
     CarteiraEntity PayerCarteira;
     UsuarioEntity PayeeAccount;
     CarteiraEntity PayeeCarteira;
+    TransacaoEntity transacaoEntity;
 
     @BeforeEach
     void setup(){
@@ -54,6 +58,8 @@ class TransacaoServiceTest {
         PayeeAccount = new UsuarioEntity(UUID.randomUUID(), "ab", TipoUsuario.LOJISTA, "850.987.415-80",
                 "danielq@gmail.com","abc");
         PayeeCarteira = new CarteiraEntity(UUID.randomUUID(),PayeeAccount, new BigDecimal(1000));
+
+        transacaoEntity = new TransacaoEntity(UUID.randomUUID(),dto.getAmount(), PayerCarteira, PayeeCarteira, Instant.now());
     }
 
 
@@ -83,5 +89,19 @@ class TransacaoServiceTest {
                 .thenReturn(Optional.of(PayeeCarteira));
 
         assertThrows(BusinessException.class, () -> transacaoService.actTransacao(dto));
+    }
+
+    @Test
+    void actTransacaoSuccess() {
+
+        when(carteiraRepository.findById(dto.getPayer()))
+                .thenReturn(Optional.of(PayerCarteira));
+
+        when(carteiraRepository.findById(dto.getPayee()))
+                .thenReturn(Optional.of(PayeeCarteira));
+
+        when(authorizeApi.getAuth()).thenReturn(true);
+
+        assertEquals(transacaoService.actTransacao(dto), new ResponseEntity<>());
     }
 }
