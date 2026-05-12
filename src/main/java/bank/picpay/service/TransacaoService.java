@@ -67,7 +67,7 @@ public class TransacaoService {
         SavingTransacaoEntity.mapDTOToEntity(dto, PayerCarteira, PayeeCarteira);
         transacaoRepository.save(SavingTransacaoEntity);
 
-        return ResponseEntity.status(HttpStatus.OK).body(SavingTransacaoEntity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(SavingTransacaoEntity);
     }
 
 }

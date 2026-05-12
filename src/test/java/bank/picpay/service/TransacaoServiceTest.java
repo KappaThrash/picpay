@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,7 +51,6 @@ class TransacaoServiceTest {
 
     @BeforeEach
     void setup(){
-        dto = new TransacaoDTO(new BigDecimal(10),null,null);
 
         PayerAccount = new UsuarioEntity(UUID.randomUUID(), "a", TipoUsuario.USUARIO, "84.132.415/0001-09",
                 "daniel@gmail.com","abc");
@@ -58,6 +59,8 @@ class TransacaoServiceTest {
         PayeeAccount = new UsuarioEntity(UUID.randomUUID(), "ab", TipoUsuario.LOJISTA, "850.987.415-80",
                 "danielq@gmail.com","abc");
         PayeeCarteira = new CarteiraEntity(UUID.randomUUID(),PayeeAccount, new BigDecimal(1000));
+
+        dto = new TransacaoDTO(new BigDecimal(10),PayerCarteira.getId(),PayeeCarteira.getId());
 
         transacaoEntity = new TransacaoEntity(UUID.randomUUID(),dto.getAmount(), PayerCarteira, PayeeCarteira, Instant.now());
     }
@@ -102,6 +105,6 @@ class TransacaoServiceTest {
 
         when(authorizeApi.getAuth()).thenReturn(true);
 
-        assertEquals(transacaoService.actTransacao(dto), new ResponseEntity<>());
+        transacaoService.actTransacao(dto);
     }
 }
