@@ -1,5 +1,6 @@
 package bank.picpay.controller;
 
+import bank.picpay.models.usuario.UsuarioEntity;
 import bank.picpay.models.usuario.cnpjDTO;
 import bank.picpay.models.usuario.cpfDTO;
 import bank.picpay.service.UsuarioService;
@@ -17,12 +18,12 @@ public class UsuarioController {
     }
 
     @PostMapping("/usuario")
-    public ResponseEntity<?> postUsuario(@RequestBody @Valid cpfDTO dto){
+    public ResponseEntity<UsuarioEntity> postUsuario(@RequestBody @Valid cpfDTO dto){
         return service.validarUsuario(dto);
     }
 
     @PostMapping("/lojista")
-    public ResponseEntity<?> postUsuario(@RequestBody @Valid cnpjDTO dto){
+    public ResponseEntity<UsuarioEntity> postUsuario(@RequestBody @Valid cnpjDTO dto){
         return service.validarLojista(dto);
     }
 

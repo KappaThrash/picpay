@@ -17,14 +17,16 @@ public class UsuarioService {
         this.repository = repository;
     }
 
-    public ResponseEntity<?> validarUsuario(cpfDTO dto){
+    public ResponseEntity<UsuarioEntity> validarUsuario(cpfDTO dto){
         var Entity = new UsuarioEntity();
         Entity.mapCPFDTOoEntity(dto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(Entity));
+        repository.save(Entity);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(Entity);
     }
 
-    public ResponseEntity<?> validarLojista(cnpjDTO dto){
+    public ResponseEntity<UsuarioEntity> validarLojista(cnpjDTO dto){
         var Entity = new UsuarioEntity();
         Entity.mapCPNPJDTOoEntity(dto);
 
