@@ -1,5 +1,6 @@
 package bank.picpay.controller;
 
+import bank.picpay.factories.UsuarioFactory;
 import bank.picpay.models.usuario.UsuarioEntity;
 import bank.picpay.models.usuario.cpfDTO;
 import bank.picpay.service.UsuarioService;
