@@ -2,6 +2,7 @@ package bank.picpay.controller;
 
 import bank.picpay.factories.UsuarioFactory;
 import bank.picpay.models.usuario.UsuarioEntity;
+import bank.picpay.models.usuario.cnpjDTO;
 import bank.picpay.models.usuario.cpfDTO;
 import bank.picpay.service.UsuarioService;
 import org.junit.jupiter.api.Test;
@@ -33,8 +34,9 @@ class UsuarioControllerTest {
 
     @Test
     void postUsuarioCPF() throws Exception {
-        ResponseEntity<UsuarioEntity> usuarioEntity = new ResponseEntity<>(new UsuarioEntity(), HttpStatus.CREATED);
-        cpfDTO cpfDTO = new cpfDTO();
+        ResponseEntity<UsuarioEntity> usuarioEntity = new ResponseEntity<>( UsuarioFactory.usuarioTipoUSUARIO(), HttpStatus.CREATED);
+        cpfDTO cpfDTO = new cpfDTO(usuarioEntity.getBody().getNome(),usuarioEntity.getBody().getTipo(),
+                usuarioEntity.getBody().getDocumento(),usuarioEntity.getBody().getEmail(),usuarioEntity.getBody().getSenha());
 
         when(usuarioService.validarUsuario(any(cpfDTO.class)))
                 .thenReturn(usuarioEntity);
@@ -46,6 +48,17 @@ class UsuarioControllerTest {
     }
 
     @Test
-    void postUsuarioCNPJ() {
+    void postUsuarioCNPJ() throws Exception{
+        ResponseEntity<UsuarioEntity> usuarioEntity = new ResponseEntity<>( UsuarioFactory.usuarioTipoLOJISTA(), HttpStatus.CREATED);
+        cnpjDTO cnpjDTO = new cnpjDTO(usuarioEntity.getBody().getNome(),usuarioEntity.getBody().getTipo(),
+                usuarioEntity.getBody().getDocumento(),usuarioEntity.getBody().getEmail(),usuarioEntity.getBody().getSenha());
+
+        when(usuarioService.validarLojista(any(cnpjDTO.class)))
+                .thenReturn(usuarioEntity);
+
+        mockMvc.perform(post("/lojista")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cnpjDTO))
+        ).andExpect(status().isCreated());
     }
 }
