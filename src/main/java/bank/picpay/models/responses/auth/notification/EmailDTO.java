@@ -1,4 +1,4 @@
-package bank.picpay.models.responses.auth;
+package bank.picpay.models.responses.auth.notification;
 
 import java.math.BigDecimal;
 import java.time.Instant;

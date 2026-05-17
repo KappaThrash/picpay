@@ -5,7 +5,7 @@ import bank.picpay.exceptions.custom_exceptions.BusinessException;
 import bank.picpay.exceptions.custom_exceptions.CarteiraNotFoundException;
 import bank.picpay.models.transacao.TransacaoDTO;
 import bank.picpay.models.transacao.TransacaoEntity;
-import bank.picpay.notify.NotifyApi;
+import bank.picpay.notify.NotificationProducer;
 import bank.picpay.repository.CarteiraRepository;
 import bank.picpay.repository.TransacaoRepository;
 import jakarta.transaction.Transactional;
@@ -62,7 +62,7 @@ public class TransacaoService {
         SavingTransacaoEntity.mapDTOToEntity(dto, PayerCarteira, PayeeCarteira);
         transacaoRepository.save(SavingTransacaoEntity);
 
-        new NotifyApi().postTransactionNotification(PayerAccount, PayeeAccount, TransactionValue, SavingTransacaoEntity.getCreated_at());
+        new NotificationProducer().postTransactionNotification(PayerAccount, PayeeAccount, TransactionValue, SavingTransacaoEntity.getCreated_at());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(SavingTransacaoEntity);
     }
