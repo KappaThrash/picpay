@@ -38,7 +38,7 @@ public class TransacaoService {
                 .orElseThrow(() -> new CarteiraNotFoundException("Carteira do Payee não encontrada"));
 
         var PayerAccount = PayerCarteira.getUser_id();
-        //var PayeeAccount = PayeeCarteira.getUser_id();
+        var PayeeAccount = PayeeCarteira.getUser_id();
 
         BigDecimal TransactionValue = dto.getAmount();
 
@@ -57,15 +57,12 @@ public class TransacaoService {
         PayerCarteira.debit(TransactionValue);
         PayeeCarteira.credit(TransactionValue);
 
-        //A api simplesmente retorna um 204 No Content ou um 504 Gateway Timeout simulando uma falha
-        // como não é pedido para enviar algo e nem tem documentação para oque enviar deixarei
-        // apenas a classe com o metodo vazio aqui
-        new NotifyApi().postNotifcation();
-
 
         var SavingTransacaoEntity = new TransacaoEntity();
         SavingTransacaoEntity.mapDTOToEntity(dto, PayerCarteira, PayeeCarteira);
         transacaoRepository.save(SavingTransacaoEntity);
+
+        new NotifyApi().postTransactionNotification(PayerAccount, PayeeAccount, TransactionValue, SavingTransacaoEntity.getCreated_at());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(SavingTransacaoEntity);
     }

@@ -1,14 +1,15 @@
 package bank.picpay.notify;
 
-import bank.picpay.exceptions.custom_exceptions.BusinessException;
-import bank.picpay.models.responses.auth.AuthorizationResponseDTO;
-import org.springframework.http.ResponseEntity;
+import bank.picpay.models.usuario.UsuarioEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+
+import java.math.BigDecimal;
+import java.time.Instant;
 
 @Component
 public class NotifyApi {
 
-    public void postNotifcation(){
+    public void postTransactionNotification(UsuarioEntity payerAccount, UsuarioEntity payeeAccount, BigDecimal transactionValue, Instant transactionTime){
+
     }
 }
