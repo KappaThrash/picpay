@@ -21,11 +21,13 @@ public class TransacaoService {
     private final TransacaoRepository transacaoRepository;
     private final CarteiraRepository carteiraRepository;
     private final AuthorizeApi authorizeApi;
+    private final NotificationProducer notificationProducer;
 
-    public TransacaoService(TransacaoRepository transacaoRepository, CarteiraRepository carteiraRepository, AuthorizeApi authorizeApi) {
+    public TransacaoService(TransacaoRepository transacaoRepository, CarteiraRepository carteiraRepository, AuthorizeApi authorizeApi, NotificationProducer notificationProducer) {
         this.transacaoRepository = transacaoRepository;
         this.carteiraRepository = carteiraRepository;
         this.authorizeApi = authorizeApi;
+        this.notificationProducer = notificationProducer;
     }
 
     @Transactional
@@ -62,7 +64,7 @@ public class TransacaoService {
         SavingTransacaoEntity.mapDTOToEntity(dto, PayerCarteira, PayeeCarteira);
         transacaoRepository.save(SavingTransacaoEntity);
 
-        new NotificationProducer().postTransactionNotification(PayerAccount, PayeeAccount, TransactionValue, SavingTransacaoEntity.getCreated_at());
+        notificationProducer.postTransactionNotification(PayerAccount, PayeeAccount, TransactionValue, SavingTransacaoEntity.getCreated_at());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(SavingTransacaoEntity);
     }

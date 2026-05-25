@@ -1,6 +1,8 @@
 package bank.picpay.config;
 
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,31 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue queue(){
-        return new Queue(queue, true);
+        return QueueBuilder.durable(queue)
+                .withArgument("x-dead-letter-exchange", "email.dlx")
+                .withArgument("x-dead-letter-routing-key", "email.dead.letter")
+                .build();
+    }
+
+    @Bean
+    public Queue auditQueue(){
+        return QueueBuilder.durable(queue + ".dlq").build();
+    }
+    @Bean
+    public DirectExchange directExchangeEmail(){
+        return new DirectExchange("email.dlx");
+    }
+
+    @Bean
+    public Binding bindingAudit(){
+        return BindingBuilder
+                .bind(auditQueue())
+                .to(directExchangeEmail())
+                .with("email.dead.letter");
+    }
+
+    @Bean
+    public MessageConverter messageConverter(){
+        return new JacksonJsonMessageConverter();
     }
 }
