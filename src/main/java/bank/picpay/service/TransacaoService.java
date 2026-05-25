@@ -5,7 +5,7 @@ import bank.picpay.exceptions.custom_exceptions.BusinessException;
 import bank.picpay.exceptions.custom_exceptions.CarteiraNotFoundException;
 import bank.picpay.models.transacao.TransacaoDTO;
 import bank.picpay.models.transacao.TransacaoEntity;
-import bank.picpay.notify.NotifyApi;
+import bank.picpay.notify.NotificationProducer;
 import bank.picpay.repository.CarteiraRepository;
 import bank.picpay.repository.TransacaoRepository;
 import jakarta.transaction.Transactional;
@@ -21,11 +21,13 @@ public class TransacaoService {
     private final TransacaoRepository transacaoRepository;
     private final CarteiraRepository carteiraRepository;
     private final AuthorizeApi authorizeApi;
+    private final NotificationProducer notificationProducer;
 
-    public TransacaoService(TransacaoRepository transacaoRepository, CarteiraRepository carteiraRepository, AuthorizeApi authorizeApi) {
+    public TransacaoService(TransacaoRepository transacaoRepository, CarteiraRepository carteiraRepository, AuthorizeApi authorizeApi, NotificationProducer notificationProducer) {
         this.transacaoRepository = transacaoRepository;
         this.carteiraRepository = carteiraRepository;
         this.authorizeApi = authorizeApi;
+        this.notificationProducer = notificationProducer;
     }
 
     @Transactional
@@ -38,7 +40,7 @@ public class TransacaoService {
                 .orElseThrow(() -> new CarteiraNotFoundException("Carteira do Payee não encontrada"));
 
         var PayerAccount = PayerCarteira.getUser_id();
-        //var PayeeAccount = PayeeCarteira.getUser_id();
+        var PayeeAccount = PayeeCarteira.getUser_id();
 
         BigDecimal TransactionValue = dto.getAmount();
 
@@ -57,15 +59,12 @@ public class TransacaoService {
         PayerCarteira.debit(TransactionValue);
         PayeeCarteira.credit(TransactionValue);
 
-        //A api simplesmente retorna um 204 No Content ou um 504 Gateway Timeout simulando uma falha
-        // como não é pedido para enviar algo e nem tem documentação para oque enviar deixarei
-        // apenas a classe com o metodo vazio aqui
-        new NotifyApi().postNotifcation();
-
 
         var SavingTransacaoEntity = new TransacaoEntity();
         SavingTransacaoEntity.mapDTOToEntity(dto, PayerCarteira, PayeeCarteira);
         transacaoRepository.save(SavingTransacaoEntity);
+
+        notificationProducer.postTransactionNotification(PayerAccount, PayeeAccount, TransactionValue, SavingTransacaoEntity.getCreated_at());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(SavingTransacaoEntity);
     }

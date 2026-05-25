@@ -7,6 +7,7 @@ import bank.picpay.models.transacao.TransacaoDTO;
 import bank.picpay.models.transacao.TransacaoEntity;
 import bank.picpay.models.usuario.TipoUsuario;
 import bank.picpay.models.usuario.UsuarioEntity;
+import bank.picpay.notify.NotificationProducer;
 import bank.picpay.repository.CarteiraRepository;
 import bank.picpay.repository.TransacaoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,8 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -24,7 +23,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,6 +30,9 @@ class TransacaoServiceTest {
 
     @Mock
     AuthorizeApi authorizeApi;
+
+    @Mock
+    NotificationProducer notificationProducer;
 
     @Mock
     TransacaoRepository transacaoRepository;
