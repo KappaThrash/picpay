@@ -33,5 +33,7 @@ build/
 .vscode/
 
 .env
+
+.env
 .env.local
 .env.*.local

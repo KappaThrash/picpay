@@ -28,4 +28,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
+      env:
+        RABBITMQ_ADDRESS: ${{ secrets.RABBITMQ_ADRESS }}
+        EMAIL_QUEUE: ${{ secrets.EMAIL_QUEUE }}
       run: mvn -B package --file pom.xml
